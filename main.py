@@ -70,5 +70,8 @@ output_overlay = draw_prediction_on_image(
 
 plt.figure(figsize=(5, 5))
 plt.imshow(output_overlay)
+cv2.imshow('img', output_overlay[..., ::-1])
+cv2.waitKey(0)
+cv2.destroyAllWindows()
 cv2.imwrite("output.jpg", output_overlay[...,::-1])
 _ = plt.axis('off')
