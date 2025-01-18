@@ -47,6 +47,9 @@ def movenet(input_image):
     outputs = model(input_image)
     # Output is a [1, 1, 17, 3] tensor.
     keypoints_with_scores = outputs['output_0'].numpy()
+    print(keypoints_with_scores)
+    print(keypoints_with_scores[0, 0, 0, 1])
+    keypoints_with_scores[0, 0, 0, 1] = 0.75
     return keypoints_with_scores
 
 # Load the input image.
