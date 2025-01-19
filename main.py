@@ -30,5 +30,5 @@ def movenet(input_image):
 
 verbose = False
 
-error_rate = analyze_video(movenet, "good.gif", verbose=verbose)
+error_rate = analyze_video(movenet, "bad.gif", name = "bad", verbose=verbose)
 print(f"Grade: {100-error_rate*100}%")
