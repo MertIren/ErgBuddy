@@ -4,7 +4,7 @@ from calibrate import process_calibration, angle_between
 def analyze_video (movenet, image_path, catch = "catch.jpg", legs = "legs.jpg", lean = "lean.jpg", right=True, input_size=192):
     vals = process_calibration(movenet, catch, legs, lean, right)
     
-    dev = 0.25
+    dev = 0.1
 
     legs_at_catch = False
     legs_extended = False
@@ -32,6 +32,8 @@ def analyze_video (movenet, image_path, catch = "catch.jpg", legs = "legs.jpg", 
 
 
     output_images = []
+    fail_collage = []
+
     mistakes = 0
     for frame_idx in range(num_frames):
         keypoints_with_scores = run_inference(
@@ -47,30 +49,31 @@ def analyze_video (movenet, image_path, catch = "catch.jpg", legs = "legs.jpg", 
 
         arms_len = np.linalg.norm(kps_filtered[0, :2] - kps_filtered[1, :2])
         legs_len = np.linalg.norm(kps_filtered[2, :2] - kps_filtered[3, :2])
-        angle = angle_between(kps_filtered[3, :2] - kps_filtered[2, :2], kps_filtered[0, :2] - kps_filtered[2, :2])
+        angle = angle_between(np.array([0, 1]), kps_filtered[0, :2] - kps_filtered[2, :2])
 
-        if (1-dev) * vals["arms"] <= arms_len and arms_len <= (1+dev) * vals["arms"]:
+        if (1-dev) * vals["arms"] <= arms_len:
             arms_extended = True
             print(f"Arms extended at frame {frame_idx}")
         elif arms_len <= 0.25 * vals["arms"]:
             arms_in = True
         
-        if (1-dev) * vals["legs_catch"] <= legs_len and legs_len <= (1+dev) * vals["legs_catch"]:
+        if legs_len <= (1+dev) * vals["legs_catch"]:
             legs_at_catch = True
-        elif (1-dev) * vals["legs"] <= legs_len and legs_len <= (1+dev) * vals["legs"]:
+        elif (1-dev) * vals["legs"] <= legs_len:
             print(f"Legs extended on frame {frame_idx}")
             legs_extended = True
 
-        if (1-dev/2) * vals["forward"] <= angle and angle <= (1+dev/2) * vals["forward"]:
+        if angle <= (1+dev/2) * vals["forward"]:
             print(f"Lean forward on frame {frame_idx}")
             lean_forward = True
-        elif (1-dev/2) * vals["layback"] <= angle and angle <= (1+dev/2) * vals["layback"]:
+        elif (1-dev/2) * vals["layback"] <= angle:
             print(f"Lean backward on frame {frame_idx}")
             lean_backward = True
 
         if not ((legs_extended and lean_backward)
              or (legs_extended and not lean_backward and arms_extended)
              or (not legs_extended and lean_forward and arms_extended)):
+            print(f"Arms_len, legs_len, angle = {arms_len}, {legs_len}, {angle}")
             print(f"mistake at frame {frame_idx}")
             mistakes += 1
 
