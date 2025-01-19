@@ -1,0 +1,6 @@
+numpy
+tensorflow[and-cuda]
+tensorflow_hub
+matplotlib==3.8.0
+opencv-python
+imageio
