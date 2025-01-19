@@ -28,5 +28,7 @@ def movenet(input_image):
 
     return keypoints_with_scores
 
-error_rate = analyze_video(movenet, "good.gif")
-print(error_rate)
+verbose = False
+
+error_rate = analyze_video(movenet, "good.gif", verbose=verbose)
+print(f"Grade: {error_rate*100}\%")

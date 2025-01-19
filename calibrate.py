@@ -24,7 +24,7 @@ def process_image (image, input_size):
     return input_image
 
 
-def process_calibration (movenet, catch="catch.jpg", legs="legs.jpg", lean="lean.jpg", right=True):
+def process_calibration (movenet, catch="catch.jpg", legs="legs.jpg", lean="lean.jpg", right=True, verbose=False):
     if right: # Right side
         filt = [6, 10, 12, 16] # Shoulder, wrist, hip, ankle
     else:
@@ -52,16 +52,16 @@ def process_calibration (movenet, catch="catch.jpg", legs="legs.jpg", lean="lean
 
     # arms_len = angle_between()
     arms_len = np.linalg.norm(catch_kps[0, :2] - catch_kps[1, :2])
-    print(f"CALIBRATED ARMS LENGTH: {arms_len}")
+    if verbose: print(f"CALIBRATED ARMS LENGTH: {arms_len}")
     legs_len = np.linalg.norm(legs_kps[2, :2] - legs_kps[3, :2])
-    print(f"CALIBRATED LEG LENGTH: {legs_len}")
+    if verbose: print(f"CALIBRATED LEG LENGTH: {legs_len}")
     legs_catch_len = np.linalg.norm(catch_kps[2, :2] - catch_kps[3, :2])
-    # back_len = np.linalg.norm(legs_kps[2, :2] - legs_kps[0, :2])
+
     forward_angle = angle_between(np.array([0, 1]), legs_kps[0, :2] - legs_kps[2, :2])
-    print(f"CALIBRATED forward angle: {forward_angle}")
+    if verbose: print(f"CALIBRATED forward angle: {forward_angle}")
 
     layback_angle = angle_between(np.array([0, 1]), lean_kps[0, :2] - lean_kps[2, :2])
-    print(f"CALIBRATED layback angle: {layback_angle}")
+    if verbose: print(f"CALIBRATED layback angle: {layback_angle}")
 
 
     return {"arms" : arms_len, "legs" : legs_len, "legs_catch" : legs_catch_len, 

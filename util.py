@@ -190,10 +190,10 @@ def draw_prediction_on_image(
          interpolation=cv2.INTER_CUBIC)
   return image_from_plot
 
-def to_gif(images, duration):
+def to_gif(images, duration, path="./animation.gif"):
   """Converts image sequence (4D numpy array) to gif."""
-  imageio.mimsave('./animation.gif', images, duration=duration)
-  return embed.embed_file('./animation.gif')
+  imageio.mimsave(path, images, duration=duration)
+  return embed.embed_file(path)
 
 def progress(value, max=100):
   return HTML("""
