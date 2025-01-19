@@ -59,9 +59,9 @@ KEYPOINT_EDGE_INDS_TO_COLOR = {
 }
 
 
-mask = np.array([KEYPOINT_DICT[bp] for bp in ("left_shoulder", "right_shoulder", "left_hip", "right_hip", "left_ankle", "right_ankle")])
+# mask = np.array([KEYPOINT_DICT[bp] for bp in ("left_shoulder", "right_shoulder", "left_hip", "right_hip", "left_ankle", "right_ankle")])
 
-KEYPOINT_EDGE_INDS_TO_COLOR = {(p1, p2) : KEYPOINT_EDGE_INDS_TO_COLOR[(p1, p2)] for (p1, p2) in KEYPOINT_EDGE_INDS_TO_COLOR if p1 in mask and p2 in mask}
+# KEYPOINT_EDGE_INDS_TO_COLOR = {(p1, p2) : KEYPOINT_EDGE_INDS_TO_COLOR[(p1, p2)] for (p1, p2) in KEYPOINT_EDGE_INDS_TO_COLOR if p1 in mask and p2 in mask}
 
 def _keypoints_and_edges_for_display(keypoints_with_scores,
                                      height,
@@ -122,24 +122,24 @@ def _keypoints_and_edges_for_display(keypoints_with_scores,
 def draw_prediction_on_image(
     image, keypoints_with_scores, crop_region=None, close_figure=False,
     output_image_height=None):
-  """Draws the keypoint predictions on image.
+  # Draws the keypoint predictions on image.
 
-  Args:
-    image: A numpy array with shape [height, width, channel] representing the
-      pixel values of the input image.
-    keypoints_with_scores: A numpy array with shape [1, 1, 17, 3] representing
-      the keypoint coordinates and scores returned from the MoveNet model.
-    crop_region: A dictionary that defines the coordinates of the bounding box
-      of the crop region in normalized coordinates (see the init_crop_region
-      function below for more detail). If provided, this function will also
-      draw the bounding box on the image.
-    output_image_height: An integer indicating the height of the output image.
-      Note that the image aspect ratio will be the same as the input image.
+  # Args:
+  #   image: A numpy array with shape [height, width, channel] representing the
+  #     pixel values of the input image.
+  #   keypoints_with_scores: A numpy array with shape [1, 1, 17, 3] representing
+  #     the keypoint coordinates and scores returned from the MoveNet model.
+  #   crop_region: A dictionary that defines the coordinates of the bounding box
+  #     of the crop region in normalized coordinates (see the init_crop_region
+  #     function below for more detail). If provided, this function will also
+  #     draw the bounding box on the image.
+  #   output_image_height: An integer indicating the height of the output image.
+  #     Note that the image aspect ratio will be the same as the input image.
 
-  Returns:
-    A numpy array with shape [out_height, out_width, channel] representing the
-    image overlaid with keypoint predictions.
-  """
+  # Returns:
+  #   A numpy array with shape [out_height, out_width, channel] representing the
+  #   image overlaid with keypoint predictions.
+  #
   height, width, channel = image.shape
   aspect_ratio = float(width) / height
   fig, ax = plt.subplots(figsize=(12 * aspect_ratio, 12))

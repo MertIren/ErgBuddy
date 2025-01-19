@@ -54,17 +54,17 @@ image = tf.image.decode_gif(image)
 num_frames, image_height, image_width, _ = image.shape
 crop_region = init_crop_region(image_height, image_width)
 
-mask = np.array([KEYPOINT_DICT[bp] for bp in ("left_shoulder", "right_shoulder", "left_hip", "right_hip", "left_ankle", "right_ankle")])
+# mask = np.array([KEYPOINT_DICT[bp] for bp in ("left_shoulder", "right_shoulder", "left_hip", "right_hip", "left_ankle", "right_ankle")])
 output_images = []
-filtered_points = []
+# filtered_points = []
 # bar = display(progress(0, num_frames-1), display_id=True)
 for frame_idx in range(num_frames):
   keypoints_with_scores = run_inference(
       movenet, image[frame_idx, :, :, :], crop_region,
       crop_size=[input_size, input_size])
   
-  filtered = keypoints_with_scores[0, 0][mask]
-  filtered_points.append(filtered)
+#   filtered = keypoints_with_scores[0, 0][mask]
+#   filtered_points.append(filtered)
 
   output_images.append(draw_prediction_on_image(
       image[frame_idx, :, :, :].numpy().astype(np.int32),
